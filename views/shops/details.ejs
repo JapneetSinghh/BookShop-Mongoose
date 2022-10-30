@@ -1,0 +1,19 @@
+<%- include('../includes/head.ejs') %>
+  <%- include('../includes/navbar.ejs') %>
+    <main id="container" class="center">
+      <br>
+      <h1 class="center">
+        <%=products.name%>
+      </h1>
+      <br>
+      <img src=" <%=products.imageUrl%>" alt="<%=products.name%>" width="370px" height="500px">
+      <p style="font-size:29px ;color:blueviolet">
+        <%= products.price%> $
+      </p>
+      <p>
+        <%= products.description%>
+      </p>
+      <p>Seller: <%= products.productBy%></p>
+    </main>
+
+    <%- include('../includes/end.ejs') %>

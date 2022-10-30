@@ -1,0 +1,18 @@
+----STEP 1----
+1. Install npm using npm init
+2. Install nodemon, express, ejs
+3. Setup server using express, Import libraries express, path
+4. Start the server
+5. Set up view engine and create first EJS page ERROR 402
+6. Make CSS folder static 
+7. Setup ERROR 402 Front end
+
+----STEP 2----
+1. Create error 404 page
+2. Setup main routers for '/' i.e main home page, '/add-product', '/cart', '/admin' in router files
+3. Add a body parser in app.js to read the req.body from from
+
+---STEP 3---
+1. Setting up getAddProduct function to get the add product page (Controller to router)
+2. Setting up the post method in Controller to get form content
+3. 

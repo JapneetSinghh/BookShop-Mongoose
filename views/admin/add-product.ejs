@@ -1,0 +1,43 @@
+<%- include('../includes/head.ejs') %>
+  <%- include('../includes/navbar.ejs') %>
+    <main>
+      <div id="container">
+        <%if(editMode){%>
+          <h1 style="text-align: center;margin-top: 20px;">Edit Product</h1>
+          <%} else{%>
+            <h1 style="text-align: center;margin-top: 20px;">Add Products</h1>
+            <%}%>
+            <%if(message){%>
+              <div class="alert">
+                  <p class="<%= validation%>"><strong><%=message%></strong> </p>
+              </div>
+              <%}%>
+              <form action="<%if(editMode){%>/edit-product<%}else{%>/add-product<%}%>" method="POST" id="form">
+                <label>Title</label>
+                <input type="text" name="productName" value="<%if(editMode || hasError){%><%=products.name%><%}%>">
+                <label>Price</label>
+                <input type="text" step="0.01" value="<% if (editMode || hasError){ %><%= products.price%><%}%>"
+                  name="productPrice">
+                <label>Image Url</label>
+                <input type="text" name="productLink" value="<%if(editMode || hasError){%><%=products.imageUrl%><%}%>">
+                <label>Description</label>
+                <textarea name="productDescription" id="" cols="30"
+                  rows="10"><%if(editMode || hasError){%><%=products.description%><%}%></textarea>
+                <%if(editMode){%>
+                  <input type="hidden" name="productId" value="<%=products._id%>">
+                  <%}%>
+                    <br>
+                    <button class="btn" type="submit">
+                      <%if(editMode){%>
+                        Update Product
+                        <%}else{%>
+                          Add Product
+                          <%}%>
+                    </button>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              </form>
+      </div>
+
+
+    </main>
+    <%- include('../includes/end.ejs') %>

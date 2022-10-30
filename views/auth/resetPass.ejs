@@ -1,0 +1,28 @@
+<%- include('../includes/head.ejs') %>
+    <%- include('../includes/navbar.ejs') %>
+        <section class="place-center">
+
+            <div class="color-back">
+                <h1 style="text-align:center ;font-size:30px;margin:10px">Reset Password</h1>
+                <p style="text-align:center ;color:#333; font-size:20px">Enter the email you used to signup</p>
+                <br>
+                <%if(message){%>
+                    <div class="alert">
+                        <p class="<%= validation%>"><strong><%=message%></strong> </p>
+                    </div>
+                    <%}%>
+                        <form action="/resetPass" method="post">
+                            <div class="form-inputs">
+                                <label for="email">Email Address</label>
+                                <input type="text" name="email" placeholder="xyz@gmail.com" id="">
+                            </div>
+                            <div class="form-button">
+                                <button class="loginBtn">Reset</button>
+                            </div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        </form>
+            </div>
+
+        </section>
+
+        <%- include('../includes/end.ejs') %>

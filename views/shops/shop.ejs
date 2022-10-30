@@ -1,0 +1,49 @@
+<%- include('../includes/head.ejs') %>
+  <%- include('../includes/navbar.ejs') %>
+    <main>
+      <br>
+      <%if (products.length> 0) {%>
+        <h1 class="center">Our Products</h1>
+        <section id="container">
+          
+          <div class="products">
+
+            <% products.forEach(p=>{ %>
+              <article class="product">
+                <div class="product-image">
+                  <img src="<%=p.imageUrl%>" alt="">
+                </div>
+                <div class="product-details">
+                  <p class="product-name">
+                    <%= p.name%>
+                  </p>
+                  <p class="product-price">
+                    $ <%= p.price%>
+                  </p>
+                  <p style="font-size: 15px;" class="product-price">
+                    Seller: <%= p.productBy%>
+                  </p>
+                  <%if(!isAuthenticated){%>
+                    <br>
+                    <%}%>
+                  <div class="center">
+                    <form action="/addToCart" method="post">
+                      <%if(isAuthenticated){%>
+                        <button type="submit" class="btn">Add To Cart</button> &nbsp;
+                        <%}%>
+                          <input type="hidden" name="productId" value="<%=p._id%>">
+                          <a class="btn" href="getDetails/<%= p._id %>">Details</a>
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    </form>
+                  </div>
+                </div>
+
+              </article>
+              <% })%>
+          </div>
+        </section>
+        <% }else {%>
+          <h1 class="center">No Products Found</h1>
+          <% }%>
+    </main>
+    <%- include('../includes/end.ejs') %>
