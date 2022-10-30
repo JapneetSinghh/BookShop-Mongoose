@@ -1,117 +1,127 @@
-/*
-File Name: app.js
-Name: Mehak kaur 
-Student ID 301232188
-Date 20 October, 2022
-*/
-
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
-
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
-let businessContactsRouter = require('./routes/businessContacts');
-let app = express();
-
-// IMPORTING PACKAGE MONGOOSE npm install --save mongoose
+const express = require('express');
+const path = require('path');
+// IMPORTING THE MONGODB SETUP FUNCTION
 const mongoose = require('mongoose');
+const app = express();
+// Importing connect-flash
+const flash = require('connect-flash');
 
-// IMPORTING USER SCHEMA FROM  user.js IN Models DIRECTORY
-const User = require('./Models/user');
+// MAKING THE CSS FOLDER PUBLIC
+app.use(express.static(path.join(__dirname, 'public')));
 
-// IMPORTING bcryptjs to encrypt the password
-const bcryptjs = require('bcryptjs');
+// IMPORT csurf package
+const csrf = require('csurf');
 
-// IMPORTING EXPRESS-SESSIONS TO CREATE LOGIN SESSIONS
-var session = require('express-session');
+// IMPORTING express-session PACKAGE TO CREATE A SESSION WHEN USER LOGS IN
+// npm install --save express-session
+const session = require('express-session');
+const MONGODB_URI = 'mongodb+srv://japneetsinghh:sidak123@cluster0.asyxflg.mongodb.net/?retryWrites=true&w=majority'
 
-// ADDING A FLASH MESSAGE
-var flash = require('connect-flash');
+// IMPORTING PACKAGE connect-mongodb-session
+// npm install --save connect-mongodb-session
+const MongoDbStore = require('connect-mongodb-session')(session);
 
-// MONGODB CLUSTER LINK
-const MONGODB_URI = 'mongodb+srv://MehakKaur:Mehak123@cluster0.8wazwtw.mongodb.net/portfolio?retryWrites=true&w=majority';
-// STARTING A SESSION
-const MongoDBStore = require('connect-mongodb-session')(session);
-const store = new MongoDBStore({
+// Creating a new connection to mongodb server
+const store = new MongoDbStore({
   uri: MONGODB_URI,
   collection: 'sessions'
 })
-  app.use(
-    session({
-      secret: 'my secret',
-      resave: 'false',
-      saveUninitialized: false,
-      store: store
-    })
-  );
+
+// npm install cookie-parser
+var cookieParser = require('cookie-parser')
+app.use(cookieParser());
+//  STARTING THE SESSION
+app.use(
+  session({
+    secret: 'my secret',
+    resave: 'false',
+    saveUninitialized: false,
+    store: store
+  })
+);
 
 
-// ADDING AUTHENTICATION STATUS
+const User = require('./models/user');
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  next();
+  if (!req.session.user) {
+    return next();
+  }
+  res.locals.username = req.session.user.username;
+  User.findById(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      // console.log(req);
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+    })
 })
-// USING FLASH FUNCTION TO SEND RESPONSES TO USER
+
+// SETTING THE VIEW ENGINE EJS
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+// Adding Body Parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// USING THE CSRF TOKEN
+const csrfProtection = csrf();
+app.use(csrfProtection);
 app.use(flash());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// SETTING THE AUTHENTICATION STATUS FOR ALL PAGES
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+})
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public'))); 
-app.use(express.static(path.join(__dirname, 'node_modules')));
+// Import routes
+const adminRoutes = require('./routers/admin');
+const shopRoutes = require('./routers/shop');
+const authRoutes = require('./routers/auth');
+app.use('/',authRoutes.routes);
+app.use('/',shopRoutes.routes);
+app.use(adminRoutes.routes);
 
-app.use(indexRouter);
-app.use(businessContactsRouter);
-app.use('/users', usersRouter);
+// ADDING ERRPR 404 PAGE
+const errorController = require('./controller/error');
+app.use(errorController.get404);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-// error handler
 
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// STARTING THE SERVER AND CONNECTING TO MONGODB
+// mongoConnect(()=>{
+// })
+const bcrypt=require('bcryptjs');
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error', { title: 'Error' });
-
-});
-
-module.exports = app;
-// CONNECTING TO MONGODB USING MONGOOSE
 mongoose.connect(MONGODB_URI)
-  .then(result => {
-    console.log('Connected !!');
-    User.findOne()  // CHECKING IF THERE IS ANY USER DATA STORED IN DATABASE
+  .then(res => {
+    console.log('Connected to mongoose !!');
+    User.findOne()
       .then(user => {
-        const password = '123456';
-        bcryptjs.hash(password, 12).then(hashedPassword => {
-          // IF NO USER FOUND IN DATABASE, WE WILL CREATE OUR FIRST USER
-          if (!user) {
-            const user = new User({
-              username: 'Mehak',
-              password: hashedPassword
-            });
-            user.save() // SAVING THE DATA TO MONGODB USING .save() mongoose function
-              .then(result => {
-                console.log(result);
-              })
-          }
-        })
+        if (!user) {
+         let password ='123456';
+         bcrypt.hash(password,12)
+         .then(hashedPassword=>{
+          console.log('NO USER WAS THERE, SOO ADDING A NEW USER');
+          const user = new User({
+            username: 'Japneet Singh',
+            email: 'japneet8208@gmail.com',
+            password: hashedPassword,
+            cart: { items: [] }
+          })
+          user.save();
+         })
+        }
       })
   })
+  .then(result=>{
+    const port = process.env.PORT || 2100;
+    app.listen(port, () => console.log(
+    'listening on port 2100'))
+  })
   .catch(err => {
-    console.log('Some Error Occured In Connecting To The Database: ' + err);
+    console.log(err);
   })
