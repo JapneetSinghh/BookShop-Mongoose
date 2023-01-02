@@ -1,24 +1,37 @@
 <%- include('../includes/head.ejs') %>
     <%- include('../includes/navbar.ejs') %>
         <section class="place-center">
-            <div>
+            <div class="color-back">
                 <h1 style="text-align:center ;font-size:30px;margin:10px">Create account</h1>
-                <form action="/login" method="post">
-                    <div class="form-inputs">
-                        <label for="email">Email Address</label>
-                        <input type="text" name="email" placeholder="xyz@gmail.com" id="">
-                    </div>
-                    <div class="form-inputs">
-                        <label for="email">Password</label>
-                        <input type="password" name="password"  id="">
-                    </div>
-                    <div class="form-inputs">
-                        <label for="email">Confirm Password</label>
-                        <input type="password" name="confirmPassword"  id="">
-                    </div>
-                    <div class="form-button">
-                        <button class="loginBtn">Sign up</button>
-                    </div>
+                <form action="/signup" method="post">
+                    <%if(message){%>
+                        <div class="alert">
+                            <p class="error"><strong>
+                                    <%= message%>
+                                </strong> </p>
+                        </div>
+                        <%}%>
+                            <div class="form-inputs">
+                                <label for="email">Name</label>
+                                <input type="text" name="username" value="<%= input.username%>" id="">
+                            </div>
+                            <div class="form-inputs">
+                                <label for="email">Email Address</label>
+                                <input type="text" value="<%= input.email%>" name="email" placeholder="xyz@gmail.com" id="">
+                            </div>
+                            <div class="form-inputs">
+                                <label for="email">Password</label>
+                                <input type="password" value="<%= input.password%>" name="password" id="">
+                            </div>
+                            <div class="form-inputs">
+                                <label for="email">Confirm Password</label>
+                                <input type="password" value="<%= input.confirmPassword%>" name="confirmPassword" id="">
+                            </div>
+                            <div class="form-button">
+                                <button class="loginBtn">Sign up</button>
+                                <p>Already have an account? <a href="/login">Login</a></p>
+                            </div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 </form>
             </div>
         </section>

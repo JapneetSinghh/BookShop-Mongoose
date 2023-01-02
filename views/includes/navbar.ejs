@@ -1,11 +1,70 @@
-<nav id="navbar">
+<!-- <nav id="navbar">
   <img src="/img/logo-2.png" alt="">
   <ul>
-   <li><a href="/" class="<%= path === '/' ? 'active' : '' %>" >Home</a></li>
-   <li><a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">Cart</a></li>
-   <li style="color: red;"><a href="/add-product" class="<%= path === '/add-product' ? 'active' : '' %>">Add Products</a></li>
-   <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a></li>
-   <li><a class="<%= path === '/admin' ? 'active' : '' %>" href="/admin">Admin</a></li>
-   <li class="buttonLogin"><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
+    <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+    <%if(isAuthenticated){%>
+      <li><a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">Cart</a></li>
+      <li style="color: red;"><a href="/add-product" class="<%= path === '/add-product' ? 'active' : '' %>">Add
+          Products</a></li>
+      <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a></li>
+      <li><a class="<%= path === '/admin' ? 'active' : '' %>" href="/admin">Admin</a></li>
+      <%}%>
+        <%if(isAuthenticated){%>
+          <li class="buttonLogin">
+            <form style="margin: 0;" action="/logout" method="POST">
+              <button type="submit">Logout</button>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            </form>
+          </li>
+          <%}else{%>
+            <li class="buttonLogin"><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
+            <%}%>
+
   </ul>
+</nav> -->
+
+
+<!-- Mobile Navbar / Sidebar -->
+<nav id="mobileNav">
+  <div id="navbar-logo">
+    <img src="/img/logo-2.png" alt="">
+  </div>
+  <button id="sidebarBtn"><i class="fa-solid fa-bars-staggered"></i></button>
 </nav>
+
+<nav id="navbar">
+  <div id="closeSideBar">
+    <button id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="navbar-logo">
+    <img src="/img/logo-2.png" alt="">
+  </div>
+  <ul>
+    <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+    <%if(isAuthenticated){%>
+      <li><a href="/cart" class="<%= path === '/cart' ? 'active' : '' %>">Cart</a></li>
+      <li><a href="/add-product" class="<%= path === '/add-product' ? 'active' : '' %>">Add
+          Products</a></li>
+      <li><a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a></li>
+      <li><a class="<%= path === '/admin' ? 'active' : '' %>" href="/admin">Admin</a></li>
+      <%}%>
+        <%if(isAuthenticated){%>
+          <li class="buttonLogin">
+            <form style="margin: 0;" action="/logout" method="POST">
+              <button type="submit">Logout</button>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            </form>
+          </li>
+          <%}else{%>
+            <li class="buttonLogin"><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
+            <%}%>
+  </ul>
+
+</nav>
+
+<% if(isAuthenticated){%>
+  <section class="username">
+    <%=username%>
+  </section>
+  <%}%>
+    <script src="/js/sidebar.js"></script>
