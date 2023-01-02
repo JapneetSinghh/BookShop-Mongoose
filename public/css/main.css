@@ -11,7 +11,6 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-
 }
 
 body {
@@ -29,10 +28,9 @@ a {
 
 #navbar ul {
   display: flex;
-  align-items: center;
 }
 
-#navbar ul li a,#navbar ul li button {
+#navbar ul li a {
   font-size: 19px;
   padding: 12px 14px;
   color: #333;
@@ -40,7 +38,7 @@ a {
   margin: 4px;
 }
 
-#navbar ul li a:hover,#navbar ul li button:hover  {
+#navbar ul li a:hover {
   color: rgb(2, 39, 184);
 }
 
@@ -62,7 +60,7 @@ a {
 }
 
 .product {
-  height: 640px;
+  height: 600px;
   width: 380px;
   background-color: white;
   border-radius: 4px;
@@ -72,7 +70,7 @@ a {
 }
 
 .product-image {
-  height: 75%;
+  height: 80%;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -103,7 +101,6 @@ a {
   font-size: 13px;
   border-radius: 10px;
   transition: 0.3s all linear;
-  margin-top: 10px;
 }
 
 .btn:hover {
@@ -165,59 +162,21 @@ a {
   height: 100%;
 }
 
-.buttonLogin a,.buttonLogin button {
-  border: none;
+.buttonLogin a {
   background-color: blueviolet;
   color: rgb(255, 255, 255) !important;
   text-decoration: none;
   padding: 12px 25px !important;
 }
 
-.buttonLogin a:hover,.buttonLogin button:hover  {
+.buttonLogin a:hover {
   background-color: rgb(240, 240, 247);
   color: blueviolet !important;
   box-shadow: 1px 1px 4px rgb(123, 123, 123);
-  cursor: pointer;
 }
+
 .place-center {
   height: 90vh;
   display: grid;
   place-items: center;
-}
-.username{
-  background-color: #333;
-  color: white;
-  padding: 20px;
-  font-size: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background-color:blueviolet;
-  max-width: 1200px;
-  margin:20px auto;
-}
-.color-back{
-  background-color: white;
-  padding:40px 20px;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  height: auto;
-  transition: 0.3s all linear;
-  width: 400px;
-}
-.alert{
-  width: 100%;
-}
-.alert p{
-  padding: 12px;
-  text-align: center;
-  margin-bottom: 20px;
-  border-radius: 20px;
-}
-.alert .success{
-  background-color: rgb(3, 176, 3);
-  color: white;
-}
-.alert .error{
-  background-color: rgb(176, 32, 3);
-  color: white;
 }

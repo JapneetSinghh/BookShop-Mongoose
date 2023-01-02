@@ -32,7 +32,6 @@ h1{
   color: blueviolet;
   border-radius: 10px;
   border: transparent;
-  background-color: rgb(245, 237, 237);
 }
 .form-button{
   display: flex;
@@ -45,12 +44,6 @@ h1{
   font-size: 15px;
   border-radius: 10px;
   margin: 5px;
-  transition: 0.3s all linear;
-}
-.loginBtn:hover{
-  cursor: pointer;
-  color: white;
-  background-color: blueviolet;
 }
 .form-button p{
   margin-left: 5px;

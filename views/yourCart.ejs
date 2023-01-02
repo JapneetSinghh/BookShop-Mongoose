@@ -11,15 +11,15 @@
               <% products.forEach(p=>{ %>
                 <article class="product">
                   <div class="product-image">
-                    <img src="<%=p.productId.imageUrl%>" alt="">
+                    <img src="<%=p.imageUrl%>" alt="">
                   </div>
                   <div class="product-details">
                     <p class="product-name">
-                      <%= p.productId.name%>
+                      <%= p.name%>
                     </p>
                     <div class="flex">
                       <p class="product-price">
-                        <%= p.productId.price%>$
+                        <%= p.price%>$
                       </p>
                       <p>Qty: <%= p.quantity%>
                       </p>
@@ -28,9 +28,7 @@
                     <div class="center">
                       <form action="/removeFromCart" method="post">
                         <button type="submit" class="btn">Remove</button> &nbsp;
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-                        <input type="hidden" name="productId" value="<%=p.productId._id%>">
+                        <input type="hidden" name="productId" value="<%=p._id%>">
                         <a class="btn" href="getDetails/<%= p._id %>">Details</a>
                       </form>
                     </div>
@@ -41,19 +39,16 @@
             </div>
           </section>
           <br>
-
+      
       </h1>
       <br>
 
     </main>
-    <div
-      style="text-align: center; background-color: white;padding: 10px; box-shadow:8px 4px 4px 11px rgba(0, 0, 0, 0.09); position: fixed;bottom: 0;width: 100%;"
-      class="footer">
+    <div style="text-align: center; background-color: white;padding: 10px; box-shadow:8px 4px 4px 11px rgba(0, 0, 0, 0.09); position: fixed;bottom: 0;width: 100%;" class="footer">
       <h1 style="margin: 20px;" class="center">Cart Total : <%= totalPrice%>$
       </h1>
       <form action="/orderNow" method="post">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="btn center">Order Now</button>
+        <button  type="submit" class="btn center">Order Now</button>
       </form>
     </div>
     <br>
@@ -65,4 +60,4 @@
     <%}else{%>
       <h1 class="center">No Products In Cart Yet</h1>
       <%}%>
-        <%- include('includes/end.ejs') %>
+    <%- include('includes/end.ejs') %>

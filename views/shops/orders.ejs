@@ -25,23 +25,23 @@
               </thead>
               <tbody>
                 <%let i=0%>
-                  <%order.products.forEach(item=>{ %>
+                  <%order.items.forEach(item=>{ %>
                     <tr class="tr">
                       <%i++;%>
                         <th scope="row">
                           <%= i%>
                         </th>
                         <td>
-                          <%= item.product.name%>
+                          <%= item.name%>
                         </td>
                         <td>
-                          <%= item.product.price%>
-                            <% totalPriceOrder=totalPriceOrder + +item.product.price*item.quantity; %>
+                          <%= item.price%>
+                            <% totalPriceOrder=totalPriceOrder + +item.price*item.quantity; %>
                         </td>
                         <td>
                           <%= item.quantity%>
                         </td>
-                        <td class="item-order"><img src="<%= item.product.imageUrl%>" alt=""></td>
+                        <td class="item-order"><img src="<%= item.imageUrl%>" alt=""></td>
                     </tr>
                     <% }) %>
 
